@@ -56,6 +56,9 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    /* finder alle mulige datoer inden for de næste 14 dage (kun hverdage),
+     hvor mindst én medarbejder er autoriseret til at udføre en bestemt behandling
+     og ikke er booket hele dagen. */
     @GetMapping("/available-dates")
     public ResponseEntity<List<String>> getAvailableDates(
             @RequestParam String treatmentName
@@ -64,6 +67,7 @@ public class EmployeeController {
         List<BookingConfirmation> bookings = bookingRepository.findAll();
         List<Treatment> treatments = treatmentRepository.findAll();
 
+        //Henter alle medarbejdere, bookinger og behandlinger fra databasen.
         Treatment treatment = treatments.stream()
                 .filter(t -> t.getTreatment_name().equalsIgnoreCase(treatmentName))
                 .findFirst()
@@ -74,9 +78,11 @@ public class EmployeeController {
         int duration = treatment.getDuration_minutes();
         Set<String> validDates = new HashSet<>();
 
+
         LocalDate today = LocalDate.now();
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < 14; i++) { // Laver en ny dato, der er i dage fra i dag (0 til 13)
             LocalDate date = today.plusDays(i);
+            // Hvis det er lørdag eller søndag, springes denne iteration over
             if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) continue;
 
             for (Employee employee : employees) {
@@ -100,6 +106,8 @@ public class EmployeeController {
             }
         }
 
-        return ResponseEntity.ok(new ArrayList<>(validDates));
+        List<String> validDatesString = new ArrayList<>(validDates);
+        Collections.sort(validDatesString);
+        return ResponseEntity.ok(validDatesString);
     }
 }
