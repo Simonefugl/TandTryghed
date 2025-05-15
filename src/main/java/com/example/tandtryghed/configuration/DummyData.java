@@ -6,8 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Arrays;
 
 @Configuration
 public class DummyData {
@@ -98,36 +98,36 @@ public class DummyData {
             b1.setPatient(patient1);
             b1.setEmployee(emma);
             b1.setTreatment(rodbehandling);
-            b1.setDate_of_consultation("2025-05-15");
-            b1.setTime_of_consultation("10:00");
+            b1.setDate_of_consultation(LocalDate.parse("2025-05-15"));
+            b1.setTime_of_consultation(LocalDate.parse("10:00"));
 
             BookingConfirmation b2 = new BookingConfirmation();
             b2.setPatient(patient2);
             b2.setEmployee(kasper);
             b2.setTreatment(tandrens);
-            b2.setDate_of_consultation("2025-05-15");
-            b2.setTime_of_consultation("11:00");
+            b2.setDate_of_consultation(LocalDate.parse("2025-05-15"));
+            b2.setTime_of_consultation(LocalDate.parse("11:00"));
 
             BookingConfirmation b3 = new BookingConfirmation();
             b3.setPatient(patient1);
             b3.setEmployee(maria);
             b3.setTreatment(tjek);
-            b3.setDate_of_consultation("2025-05-16");
-            b3.setTime_of_consultation("09:00");
+            b3.setDate_of_consultation(LocalDate.parse("2025-05-16"));
+            b3.setTime_of_consultation(LocalDate.parse("09:00"));
 
             BookingConfirmation b4 = new BookingConfirmation();
             b4.setPatient(patient2);
             b4.setEmployee(ida);
             b4.setTreatment(tandrens);
-            b4.setDate_of_consultation("2025-05-16");
-            b4.setTime_of_consultation("10:00");
+            b4.setDate_of_consultation(LocalDate.parse("2025-05-16"));
+            b4.setTime_of_consultation(LocalDate.parse("10:00"));
 
             BookingConfirmation b5 = new BookingConfirmation();
             b5.setPatient(patient1);
             b5.setEmployee(sofie);
             b5.setTreatment(rodbehandling);
-            b5.setDate_of_consultation("2025-05-17");
-            b5.setTime_of_consultation("14:00");
+            b5.setDate_of_consultation(LocalDate.parse("2025-05-17"));
+            b5.setTime_of_consultation(LocalDate.parse("14:00"));
 
             bookingRepo.saveAll(List.of(b1, b2, b3, b4, b5));
         };
