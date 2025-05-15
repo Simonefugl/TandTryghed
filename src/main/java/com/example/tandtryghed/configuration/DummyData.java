@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.Arrays;
 
 @Configuration
 public class DummyData {
@@ -21,7 +22,7 @@ public class DummyData {
         return args -> {
             System.out.println("🦷 Indsætter dummy data til tandplejesystem...");
 
-            if (employeeRepo.count() > 0) return; // Undgå at indsætte to gange
+            if (employeeRepo.count() > 0) return;
 
             // 🔹 Behandlinger
             Treatment rodbehandling = new Treatment();
@@ -38,7 +39,7 @@ public class DummyData {
 
             treatmentRepo.saveAll(List.of(rodbehandling, tandrens, tjek));
 
-            // 🔹 Medarbejdere - 3 tandlæger + 3 klinikassistenter
+            // 🔹 Medarbejdere
             Employee emma = new Employee();
             emma.setEmployee_first_name("Emma");
             emma.setEmployee_last_name("Hansen");
@@ -53,83 +54,82 @@ public class DummyData {
 
             Employee maria = new Employee();
             maria.setEmployee_first_name("Maria");
-            maria.setEmployee_last_name("Jespersen");
+            maria.setEmployee_last_name("Nielsen");
             maria.setEmployee_role("Tandlæge");
-            maria.setTreatments(List.of(tjek, rodbehandling));
+            maria.setTreatments(List.of(rodbehandling, tjek));
 
-            Employee line = new Employee();
-            line.setEmployee_first_name("Line");
-            line.setEmployee_last_name("Thomsen");
-            line.setEmployee_role("Klinikassistent");
-            line.setTreatments(List.of(tandrens));
+            Employee ida = new Employee();
+            ida.setEmployee_first_name("Ida");
+            ida.setEmployee_last_name("Madsen");
+            ida.setEmployee_role("Klinikassistent");
+            ida.setTreatments(List.of(tandrens));
 
-            Employee frederik = new Employee();
-            frederik.setEmployee_first_name("Frederik");
-            frederik.setEmployee_last_name("Skov");
-            frederik.setEmployee_role("Klinikassistent");
-            frederik.setTreatments(List.of(tjek));
+            Employee jonas = new Employee();
+            jonas.setEmployee_first_name("Jonas");
+            jonas.setEmployee_last_name("Pedersen");
+            jonas.setEmployee_role("Klinikassistent");
+            jonas.setTreatments(List.of(tandrens, tjek));
 
-            Employee sofia = new Employee();
-            sofia.setEmployee_first_name("Sofia");
-            sofia.setEmployee_last_name("Østergaard");
-            sofia.setEmployee_role("Klinikassistent");
-            sofia.setTreatments(List.of(tandrens, tjek));
+            Employee sofie = new Employee();
+            sofie.setEmployee_first_name("Sofie");
+            sofie.setEmployee_last_name("Jørgensen");
+            sofie.setEmployee_role("Klinikassistent");
+            sofie.setTreatments(List.of(rodbehandling));
 
-            employeeRepo.saveAll(List.of(emma, kasper, maria, line, frederik, sofia));
+            employeeRepo.saveAll(List.of(emma, kasper, maria, ida, jonas, sofie));
 
             // 🔹 Patienter
-            Patient sofie = new Patient();
-            sofie.setPatient_id("SF123");
-            sofie.setPatient_last_name("Nielsen");
-            sofie.setPatient_email("sofie@example.com");
-            sofie.setPatient_phone_number(20405060);
+            Patient patient1 = new Patient();
+            patient1.setPatient_first_name("Lise");
+            patient1.setPatient_last_name("Mortensen");
+            patient1.setPatient_email("lise@mail.com");
+            patient1.setPatient_phone_number("12345678");
 
-            Patient mads = new Patient();
-            mads.setPatient_id("MD456");
-            mads.setPatient_last_name("Jensen");
-            mads.setPatient_email("mads@example.com");
-            mads.setPatient_phone_number(50102030);
+            Patient patient2 = new Patient();
+            patient2.setPatient_first_name("Mikkel");
+            patient2.setPatient_last_name("Andersen");
+            patient2.setPatient_email("mikkel@mail.com");
+            patient2.setPatient_phone_number("87654321");
 
-            Patient laila = new Patient();
-            laila.setPatient_id("LB789");
-            laila.setPatient_last_name("Berg");
-            laila.setPatient_email("laila@example.com");
-            laila.setPatient_phone_number(30201040);
+            patientRepo.saveAll(List.of(patient1, patient2));
 
-            patientRepo.saveAll(List.of(sofie, mads, laila));
+            // 🔹 Bookinger (nogle tider blokeret til test)
+            BookingConfirmation b1 = new BookingConfirmation();
+            b1.setPatient(patient1);
+            b1.setEmployee(emma);
+            b1.setTreatment(rodbehandling);
+            b1.setDate_of_consultation("2025-05-15");
+            b1.setTime_of_consultation("10:00");
 
-            // 🔹 Bookinger
-            BookingConfirmation booking1 = new BookingConfirmation();
-            booking1.setDate_of_consultation("2025-05-14");
-            booking1.setTime_of_consultation("10:00");
-            booking1.setEmployee(emma);
-            booking1.setTreatment(rodbehandling);
-            booking1.setPatient(sofie);
+            BookingConfirmation b2 = new BookingConfirmation();
+            b2.setPatient(patient2);
+            b2.setEmployee(kasper);
+            b2.setTreatment(tandrens);
+            b2.setDate_of_consultation("2025-05-15");
+            b2.setTime_of_consultation("11:00");
 
-            BookingConfirmation booking2 = new BookingConfirmation();
-            booking2.setDate_of_consultation("2025-06-02");
-            booking2.setTime_of_consultation("13:00");
-            booking2.setEmployee(kasper);
-            booking2.setTreatment(tjek);
-            booking2.setPatient(mads);
+            BookingConfirmation b3 = new BookingConfirmation();
+            b3.setPatient(patient1);
+            b3.setEmployee(maria);
+            b3.setTreatment(tjek);
+            b3.setDate_of_consultation("2025-05-16");
+            b3.setTime_of_consultation("09:00");
 
-            BookingConfirmation booking3 = new BookingConfirmation();
-            booking3.setDate_of_consultation("2025-05-15");
-            booking3.setTime_of_consultation("08:30");
-            booking3.setEmployee(maria);
-            booking3.setTreatment(rodbehandling);
-            booking3.setPatient(laila);
+            BookingConfirmation b4 = new BookingConfirmation();
+            b4.setPatient(patient2);
+            b4.setEmployee(ida);
+            b4.setTreatment(tandrens);
+            b4.setDate_of_consultation("2025-05-16");
+            b4.setTime_of_consultation("10:00");
 
-            BookingConfirmation booking4 = new BookingConfirmation();
-            booking4.setDate_of_consultation("2025-05-15");
-            booking4.setTime_of_consultation("09:00");
-            booking4.setEmployee(emma);
-            booking4.setTreatment(tandrens);
-            booking4.setPatient(mads);
+            BookingConfirmation b5 = new BookingConfirmation();
+            b5.setPatient(patient1);
+            b5.setEmployee(sofie);
+            b5.setTreatment(rodbehandling);
+            b5.setDate_of_consultation("2025-05-17");
+            b5.setTime_of_consultation("14:00");
 
-            bookingRepo.saveAll(List.of(booking1, booking2, booking3, booking4));
-
-            System.out.println("✅ Dummy data indsat!");
+            bookingRepo.saveAll(List.of(b1, b2, b3, b4, b5));
         };
     }
 }

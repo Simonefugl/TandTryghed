@@ -8,10 +8,10 @@ public class Patient {
 
     @Id
     private String patient_id;
-
+    private String patient_first_name;
     private String patient_last_name;
     private String patient_email;
-    private int patient_phone_number;
+    private String patient_phone_number;
 
     @OneToMany(mappedBy = "patient")
     private List<BookingConfirmation> confirmations;
@@ -22,6 +22,14 @@ public class Patient {
 
     public void setPatient_id(String patient_id) {
         this.patient_id = patient_id;
+    }
+
+    public String getPatient_first_name() {
+        return patient_first_name;
+    }
+
+    public void setPatient_first_name(String patient_first_name) {
+        this.patient_first_name = patient_first_name;
     }
 
     public String getPatient_last_name() {
@@ -40,11 +48,11 @@ public class Patient {
         this.patient_email = patient_email;
     }
 
-    public int getPatient_phone_number() {
+    public String getPatient_phone_number() {
         return patient_phone_number;
     }
 
-    public void setPatient_phone_number(int patient_phone_number) {
+    public void setPatient_phone_number(String patient_phone_number) {
         this.patient_phone_number = patient_phone_number;
     }
 

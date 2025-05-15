@@ -5,7 +5,6 @@ import java.util.List;
 
 @Entity
 public class Treatment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int treatment_id;
